@@ -44,3 +44,31 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+
+################################################################
+# add at 2021-05
+################################################################
+
+
+# version:
+.fvm/flutter_sdk
+ios/build/
+ios/Podfile.lock
+pubspec.lock
+ios/Runner.xcodeproj/project.pbxproj
+
+# generate files:
+*.g.dart
+generated/
+tmp/
+*.tmp
+*.tmp.*
+.env
+
+
+# storage files during local tests
+**/*.bak
+**/*.gs
+*.hive
+*.lock
