@@ -194,13 +194,20 @@ tasks:
   get:init:
     cmds:
       - get init
+      - task: get:locales:folder
+
+  get:locales:init:
+    cmds:
       - task: mkdir
         vars:  {FOLDER: "assets/locales"}
+      - echo "{\"appName\":\"示例\"}" > assets/locales/zh_CN.json
+      - echo "{\"appName\":\"demo\"}" > assets/locales/en_US.json
       - task: mkdir
         vars: {FOLDER: "lib/app/data/locales"}
+      - touch lib/app/data/locales/.gitkeep
 
 
-      # 代码格式化:
+  # 代码格式化:
   get-sort:
     cmds:
       - get sort
