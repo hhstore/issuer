@@ -60,11 +60,105 @@ tasks:
       - task: get:locales:gen # i18n
       - fvm flutter packages pub run build_runner build
 
+
+
+
   #########################################################################
+
+  new:
+    desc: "create flutter app"
+    cmds:
+      - echo "$(pwd) > ${FLUTTER_APP_ROOT} > ${FLUTTER_APP_NAME}"
+      - cd ${FLUTTER_APP_ROOT}; fvm flutter create ${FLUTTER_APP_NAME}
 
   get:
     cmds:
-      - fvm flutter pub get
+      - task: do
+        vars: {CMD: "pub get"}
+
+  run:
+    cmds:
+      - task: do
+        vars: {CMD: "run --debug"}
+
+  run:ios:
+    cmds:
+      - task: do
+        vars: {CMD: "run --debug -d ${FLUTTER_DEVICE_ID_IOS}"}
+
+  run:android:
+    cmds:
+      - task: do
+        vars: {CMD: "run --debug -d ${FLUTTER_DEVICE_ID_ANDROID}"}
+
+  run:web:
+    cmds:
+      - task: do
+        vars: {CMD: "run --debug -d chrome --web-renderer html"} # load speed
+
+  deploy:
+    cmds:
+      - task: clean
+      - task: release:web
+      - open http://localhost:8080
+      - cd ${FLUTTER_APP_ROOT}/${FLUTTER_APP_NAME}; open build/web/
+      - echo "$(pwd)"
+      #      - cd ${FLUTTER_APP_ROOT}/${FLUTTER_APP_NAME}; ngrok http file:///$(pwd)/build/web
+      - cd ${FLUTTER_APP_ROOT}/${FLUTTER_APP_NAME}; dhttpd --port 8080 --path build/web/
+
+  clean:
+    cmds:
+      - task: do
+        vars: {CMD: "clean"}
+
+  #
+  # 每次升级 flutter 版本, 要执行 clean + run, 否则报奇怪错误.
+  #
+  clean:run:
+    cmds:
+      - task: clean
+      - task: run
+
+  release:
+    cmds:
+      - task: release:ios
+      - task: release:android
+      - task: release:web
+
+  release:web:
+    cmds:
+      - task: do
+        vars: {CMD: "build web --release --web-renderer html"}  # 不使用 canvaskit.wasm, 优化加载速度
+
+  release:ios:
+    cmds:
+      - task: do
+        vars: {CMD: "build ios"}
+      - open build/ios/iphoneos
+      - task: open-xcode
+
+  release:android:
+    cmds:
+      - task: do
+        vars: {CMD: "build apk"}
+      - echo 'check build/app/outputs/flutter-apk/ folder'
+      - cp build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/wallet-v`date +%Y-%m-%d`-release.apk
+      - open build/app/outputs/flutter-apk/
+  #      - fvm flutter build apk --target-platform android-arm,android-arm64,android-x64 --split-per-abi  # 分 ARM 架构打包, 包更小
+
+  do:
+    cmds:
+      - fvm flutter {{.CMD}}   # DO CMD
+
+  open:xcode:
+    cmds:
+      - open ios/Runner.xcworkspace   # not Runner.xcodeproj
+      - open https://appstoreconnect.apple.com/apps/1542311370/testflight/ios
+      - open https://testflight.apple.com/join/Vain6SGh
+
+
+  #########################################################################
+
 
   pub:add:
     cmds:
@@ -94,68 +188,6 @@ tasks:
 
 
   #########################################################################
-
-  run:
-    cmds:
-      - fvm flutter run
-
-  run:web:
-    cmds:
-      - fvm flutter run -d chrome
-
-  run-ios:
-    cmds:
-      - fvm flutter run -d $RUN_IOS_DEVICE_ID
-
-  run-android:
-    cmds:
-      - fvm flutter run --debug -d $RUN_ANDROID_DEVICE_ID
-
-  #
-  # 每次升级 flutter 版本, 要执行 clean + run, 否则报奇怪错误.
-  #
-  run-clean:
-    cmds:
-      - task: clean
-      - task: run
-
-  #########################################################################
-
-  clean:
-    cmds:
-      - fvm flutter clean
-
-  release:
-    cmds:
-      - task: release-ios
-      - task: release-android
-
-  release:ios:
-    cmds:
-      - fvm flutter build ios
-      - open build/ios/iphoneos
-      - task: open-xcode
-
-  open-xcode:
-    cmds:
-      - open ios/Runner.xcworkspace   # not Runner.xcodeproj
-      - open https://appstoreconnect.apple.com/apps/1542311370/testflight/ios
-      - open https://testflight.apple.com/join/Vain6SGh
-
-  release:android:
-    cmds:
-      - fvm flutter build apk
-      - echo 'check build/app/outputs/flutter-apk/ folder'
-      - cp build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/wallet-v`date +%Y-%m-%d`-release.apk
-      - open build/app/outputs/flutter-apk/
-  #      - fvm flutter build apk --target-platform android-arm,android-arm64,android-x64 --split-per-abi  # 分 ARM 架构打包, 包更小
-
-  clean-release-ios:
-    cmds:
-      - task clean
-      - task get
-      - task release-ios
-
 
   version-check:
     cmds:
