@@ -40,6 +40,11 @@ tasks:
       - fvm use 2.5.0  # install and use
       - pub global activate fvm # update fvm
 
+  tool:
+    cmds:
+      - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh  # install rust
+      - cargo install svgcleaner # fix svg file meta error
+
   init:
     cmds:
       - cp .env.local .env
@@ -48,8 +53,12 @@ tasks:
       - task: activate
       - task: pub:add
       - task: get:init
-      - task: get-gen-locales # i18n
       - task: gen
+
+  gen:
+    cmds:
+      - task: get:locales:gen # i18n
+      - fvm flutter packages pub run build_runner build
 
   #########################################################################
 
@@ -63,6 +72,11 @@ tasks:
       - fvm flutter pub add --dev get_cli
     ignore_error: true
 
+  pub:add:lints:
+    cmds:
+      - fvm flutter pub add --dev lints
+      - fvm flutter pub add --dev flutter_lints
+
   activate: # activate tools
     cmds:
       - pub global activate get_cli
@@ -73,10 +87,11 @@ tasks:
       - pub global deactivate get_cli
     ignore_error: true
 
-  tool:
+
+  lints:
     cmds:
-      - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh  # install rust
-      - cargo install svgcleaner # fix svg file meta error
+      - fvm flutter analyze
+
 
   #########################################################################
 
@@ -110,17 +125,12 @@ tasks:
     cmds:
       - fvm flutter clean
 
-
-  gen:
-    cmds:
-      - fvm flutter packages pub run build_runner build
-
   release:
     cmds:
       - task: release-ios
       - task: release-android
 
-  release-ios:
+  release:ios:
     cmds:
       - fvm flutter build ios
       - open build/ios/iphoneos
@@ -132,7 +142,7 @@ tasks:
       - open https://appstoreconnect.apple.com/apps/1542311370/testflight/ios
       - open https://testflight.apple.com/join/Vain6SGh
 
-  release-android:
+  release:android:
     cmds:
       - fvm flutter build apk
       - echo 'check build/app/outputs/flutter-apk/ folder'
@@ -186,15 +196,23 @@ tasks:
     cmds:
       - keytool -genkey -v -keystore ~/key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key
 
-  get-create-project:
+
+  #########################################################################
+
+  # 代码格式化:
+  get:code:fmt:
+    cmds:
+      - get sort
+
+  get:app:new:
     cmds:
       - get create project:my_app
 
-  # 初始化 app 目录:
+  # 初始化 app 目录: 使用 flutter create demo 创建后, 再改造成 GetX 结构
   get:init:
     cmds:
       - get init
-      - task: get:locales:folder
+      - task: get:locales:init
 
   get:locales:init:
     cmds:
@@ -206,43 +224,37 @@ tasks:
         vars: {FOLDER: "lib/app/data/locales"}
       - touch lib/app/data/locales/.gitkeep
 
-
-  # 代码格式化:
-  get-sort:
-    cmds:
-      - get sort
-
-  get-gen-locales:
+  get:locales:gen:
     desc: "generate multi language(i18n)"
     cmds:
       - get generate locales assets/locales on data/locales
 
-  get-add-page:
+  get:page:new:
     cmds:
       - get create page:$PAGE_NAME # set from .env(check .env.local)
 
-  get-add-sub-page:
+  get:page:new:sub:
     cmds:
       - get create page:$PAGE_NAME on $PAGE_PATH
 
-  get-add-controller:
+  get:controller:new:
     cmds:
       - get create controller:$VIEW_NAME on $VIEW_PATH
 
-  get-add-view-only:
+  get:view:new:
+    cmds:
+      - task: get:view:new:only
+      - task: get:controller:new
+
+  get:view:new:only:
     cmds:
       - get create view:$VIEW_NAME on $VIEW_PATH
 
-  get-add-view:
-    cmds:
-      - task: get-add-view-only
-      - task: get-add-controller
-
-  get-provider:
+  get:provider:new:
     cmds:
       - get create provider:$PROVIDER_NAME on data
 
-  get-gen-model:
+  get:mode:new:
     cmds:
       #- get generate model with assets/models/wallet_address_asset_entity.json --skipProvider
       - get generate model with $MODEL_JSON_FILE_PATH --skipProvider
@@ -287,11 +299,3 @@ tasks:
       - open https://iancoleman.io/bip39/#english
 
 
-  add-lints:
-    cmds:
-      - fvm flutter pub add --dev lints
-      - fvm flutter pub add --dev flutter_lints
-
-  lints:
-    cmds:
-      - fvm flutter analyze
