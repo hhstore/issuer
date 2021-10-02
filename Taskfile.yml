@@ -40,26 +40,53 @@ tasks:
       - fvm use 2.5.0  # install and use
       - pub global activate fvm # update fvm
 
-  tool:
-    cmds:
-      - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh  # install rust
-      - cargo install svgcleaner # fix svg file meta error
-
   init:
     cmds:
       - cp .env.local .env
       - task: get
+      - task: deactivate  # fix get_cli error
       - task: activate
+      - task: pub:add
+      - task: get:init
       - task: get-gen-locales # i18n
       - task: gen
+
+  #########################################################################
 
   get:
     cmds:
       - fvm flutter pub get
 
+  pub:add:
+    cmds:
+      - fvm flutter pub add --dev build_runner
+      - fvm flutter pub add --dev get_cli
+    ignore_error: true
+
+  activate: # activate tools
+    cmds:
+      - pub global activate get_cli
+    ignore_error: true
+
+  deactivate:
+    cmds:
+      - pub global deactivate get_cli
+    ignore_error: true
+
+  tool:
+    cmds:
+      - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh  # install rust
+      - cargo install svgcleaner # fix svg file meta error
+
+  #########################################################################
+
   run:
     cmds:
       - fvm flutter run
+
+  run:web:
+    cmds:
+      - fvm flutter run -d chrome
 
   run-ios:
     cmds:
@@ -83,9 +110,6 @@ tasks:
     cmds:
       - fvm flutter clean
 
-  activate: # activate tools
-    cmds:
-      - fvm flutter pub global activate get_cli
 
   gen:
     cmds:
@@ -167,13 +191,16 @@ tasks:
       - get create project:my_app
 
   # 初始化 app 目录:
-  get-init:
+  get:init:
     cmds:
       - get init
       - task: mkdir
+        vars:  {FOLDER: "assets/locales"}
+      - task: mkdir
         vars: {FOLDER: "lib/app/data/locales"}
 
-  # 代码格式化:
+
+      # 代码格式化:
   get-sort:
     cmds:
       - get sort
