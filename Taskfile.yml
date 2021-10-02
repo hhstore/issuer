@@ -135,7 +135,7 @@ tasks:
       - task: do
         vars: {CMD: "build ios"}
       - open build/ios/iphoneos
-      - task: open-xcode
+      - task: open:xcode
 
   release:android:
     cmds:
