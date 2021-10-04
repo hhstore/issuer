@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:issuer/app/modules/about/views/about_view.dart';
 import 'package:issuer/app/modules/article/views/article_view.dart';
+import 'package:issuer/app/modules/tag/views/tag_view.dart';
 
 class HomeController extends GetxController with SingleGetTickerProviderMixin {
   late TabController tc;
@@ -20,6 +21,10 @@ class HomeController extends GetxController with SingleGetTickerProviderMixin {
       {
         'title': Text('Article'),
         'body': () => ArticleView(), // 测试页
+      },
+      {
+        'title': Text('Tag'),
+        'body': () => TagView(), // 测试页
       },
       {
         'title': Text('About'),

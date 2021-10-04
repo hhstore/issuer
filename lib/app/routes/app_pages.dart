@@ -6,6 +6,8 @@ import 'package:issuer/app/modules/article/bindings/article_binding.dart';
 import 'package:issuer/app/modules/article/views/article_view.dart';
 import 'package:issuer/app/modules/home/bindings/home_binding.dart';
 import 'package:issuer/app/modules/home/views/home_view.dart';
+import 'package:issuer/app/modules/tag/bindings/tag_binding.dart';
+import 'package:issuer/app/modules/tag/views/tag_view.dart';
 
 part 'app_routes.dart';
 
@@ -29,6 +31,11 @@ class AppPages {
       name: _Paths.ABOUT,
       page: () => AboutView(),
       binding: AboutBinding(),
+    ),
+    GetPage(
+      name: _Paths.TAG,
+      page: () => TagView(),
+      binding: TagBinding(),
     ),
   ];
 }
