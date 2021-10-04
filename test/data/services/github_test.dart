@@ -23,7 +23,6 @@ void main() {
   test('issue - listByRepo', () async {
     var issues = await github.issues.listByRepo(RepositorySlug('hhstore', 'blog')).toList().then((value) {
       for (var item in value) {
-        /// print blog title:
         print('listByRepo: issue.title: ${item.commentsCount}, ${item.id}, ${item.number}');
       }
     });
@@ -36,17 +35,14 @@ void main() {
     });
   });
 
-  /// listLabels:
   test('issue - listLabels', () async {
     var issues = await github.issues.listLabels(RepositorySlug('hhstore', 'blog')).toList().then((value) {
       for (var item in value) {
-        /// print blog label:
-        print('label: ${item.name}, ${item.color}');
+        print('listLabels: ${item.name}, ${item.color}');
       }
     });
   });
 
-  /// listCommentsByIssue
   test('issue - getComment', () async {
     var ret = await github.issues.getComment(RepositorySlug('hhstore', 'blog'), 2).then((value) {
       print('getComment: ${value.body}');
@@ -55,24 +51,19 @@ void main() {
     print('getComment: ${ret}');
   });
 
-  /// listCommentsByIssue
   test('issue - listCommentsByIssue', () async {
     var issues = await github.issues.listCommentsByIssue(RepositorySlug('hhstore', 'blog'), 215).toList().then((value) {
       for (var item in value) {
-        /// print blog label:
-        print('label: ${item.body}');
+        print('listCommentsByIssue: ${item.body}');
       }
     });
   });
 
-  test('issue - listCommentsByIssue', () async {
-    var issues = await github.issues.listCommentsByIssue(RepositorySlug('hhstore', 'blog'), 10).toList().then((value) {
+  test('issue - listLabelsByIssue', () async {
+    var issues = await github.issues.listLabelsByIssue(RepositorySlug('hhstore', 'blog'), 215).toList().then((value) {
       for (var item in value) {
-        /// print blog label:
-        print('label: ${item.body}');
+        print('listLabelsByIssue: ${item}');
       }
     });
   });
-
-  /// listLabels
 }
