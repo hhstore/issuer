@@ -48,6 +48,7 @@ tasks:
   init:
     cmds:
       - cp .env.local .env
+      - cp .env.test test/.env
       - task: get
       - task: deactivate  # fix get_cli error
       - task: activate
