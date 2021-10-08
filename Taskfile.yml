@@ -45,7 +45,7 @@ tasks:
       - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh  # install rust
       - cargo install svgcleaner # fix svg file meta error
 
-  init:
+  init:first:
     cmds:
       - cp .env.local .env
       - cp .env.test test/.env
@@ -54,6 +54,13 @@ tasks:
       - task: activate
       - task: pub:add
       - task: get:init
+      - task: gen
+
+  init:
+    cmds:
+      - cp .env.local .env
+      - cp .env.test test/.env
+      - task: get:locales:init
       - task: gen
 
   gen:
