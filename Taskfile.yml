@@ -102,7 +102,7 @@ tasks:
   run:web:
     cmds:
       - task: do
-        vars: {CMD: "run --debug -d chrome --web-renderer html --dart-define=GITHUB_API_TOKEN=GITHUB_API_TOKEN"} # load speed
+        vars: {CMD: "run --debug -d chrome --web-renderer html --dart-define=GITHUB_API_TOKEN=${GITHUB_API_TOKEN}"} # load speed
 
   deploy:
     cmds:

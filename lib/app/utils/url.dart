@@ -12,15 +12,8 @@ mixin UtilsMixin {
 
   GitHub githubClient({String? token}) {
     const cliToken = String.fromEnvironment('GITHUB_API_TOKEN');
-    print('cli args: ${cliToken}');
     token = token ?? cliToken;
-
-    var envToken = envGet('GITHUB_API_TOKEN');
-
-    /// hack here!
-    token = (token != 'GITHUB_API_TOKEN') ? token : envToken;
-    print('env from github action: $token, $cliToken, $envToken');
-
+    print('cli args: GITHUB_API_TOKEN=${cliToken}, token=$token');
     return GitHub(auth: Authentication.withToken(token));
   }
 
