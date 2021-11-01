@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:github/github.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -13,13 +11,17 @@ mixin UtilsMixin {
   String? envGet(String name) => dotenv.get(name, fallback: null);
 
   GitHub githubClient({String? token}) {
-    var actToken = Platform.environment['secrets.commit_secret'];
+    const cliToken = String.fromEnvironment('GITHUB_API_TOKEN');
+    print('cli args: ${cliToken}');
+    token = token ?? cliToken;
+
     var envToken = envGet('GITHUB_API_TOKEN');
-    var t = envToken ?? actToken;
 
-    print('env from github action: $actToken, $envToken, $t');
+    /// hack here!
+    token = (token != 'GITHUB_API_TOKEN') ? token : envToken;
+    print('env from github action: $token, $cliToken, $envToken');
 
-    return GitHub(auth: Authentication.withToken(token ?? t));
+    return GitHub(auth: Authentication.withToken(token));
   }
 
   ///
