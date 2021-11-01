@@ -31,7 +31,7 @@ jobs:
       #
       # release:
       #
-      - run: flutter build web --release --web-renderer html --base-href /toolbox/   # fix baseHref
+      - run: flutter build web --release --web-renderer html --base-href /issuer/   # fix baseHref
       - run: |
           cd build/web
           git init
