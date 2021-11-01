@@ -24,16 +24,15 @@ class NavView extends GetView<NavController> {
             scrollDirection: Axis.vertical,
             physics: NeverScrollableScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 10,
-              childAspectRatio: 1.5,
+              crossAxisCount: GetPlatform.isMobile ? 4 : 6,
+              childAspectRatio: GetPlatform.isMobile ? 1.3 : 2,
             ),
             itemBuilder: (context, index) {
               return Container(
-                padding: EdgeInsets.all(10),
                 child: InkWell(
                   child: Center(
                     child: Card(
-                      color: Colors.purpleAccent,
+                      color: Colors.greenAccent,
                       child: Column(
                         children: [
                           Icon(
@@ -48,13 +47,8 @@ class NavView extends GetView<NavController> {
                   onTap: () async => await controller.launchUrl('https://explorer.bitquery.io/'),
                 ),
               );
-
-              return Container(
-                height: 5,
-                color: Colors.primaries[index % Colors.primaries.length],
-              );
             },
-            itemCount: 50,
+            itemCount: 40,
           ),
         ],
       )),

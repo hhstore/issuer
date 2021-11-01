@@ -20,10 +20,6 @@ class HomeController extends GetxController with SingleGetTickerProviderMixin {
     /// 页面数据刷新:
     tabs.assignAll([
       {
-        'title': Text('Nav'),
-        'body': () => NavView(), // 测试页
-      },
-      {
         'title': Text('Article'),
         'body': () => ArticleView(), // 测试页
       },
@@ -34,6 +30,10 @@ class HomeController extends GetxController with SingleGetTickerProviderMixin {
       {
         'title': Text('About'),
         'body': () => AboutView(), // 测试页
+      },
+      {
+        'title': Text('Nav'),
+        'body': () => NavView(), // 测试页
       },
     ]);
 
