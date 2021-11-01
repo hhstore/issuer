@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
-class ArticleController extends GetxController {
-  //TODO: Implement ArticleController
+class NavController extends GetxController {
+  //TODO: Implement NavController
 
   final count = 0.obs;
   @override
@@ -17,7 +17,4 @@ class ArticleController extends GetxController {
   @override
   void onClose() {}
   void increment() => count.value++;
-
-  ///
-  void getArticles() {}
 }

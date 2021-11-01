@@ -8,6 +8,7 @@ abstract class Routes {
   static const ARTICLE = _Paths.ARTICLE;
   static const ABOUT = _Paths.ABOUT;
   static const TAG = _Paths.TAG;
+  static const NAV = _Paths.NAV;
 }
 
 abstract class _Paths {
@@ -15,4 +16,5 @@ abstract class _Paths {
   static const ARTICLE = '/article';
   static const ABOUT = '/about';
   static const TAG = '/tag';
+  static const NAV = '/nav';
 }

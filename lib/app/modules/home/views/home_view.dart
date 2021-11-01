@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:issuer/app/modules/about/views/about_view.dart';
@@ -20,6 +22,10 @@ class HomeView extends GetView<HomeController> {
           appBar: AppBar(
             title: TabBar(
               tabs: controller.tabs.map((e) => e['title'] as Widget).toList(),
+              indicatorSize: TabBarIndicatorSize.label,
+              labelStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
             ),
             centerTitle: true,
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:issuer/app/modules/about/views/about_view.dart';
 import 'package:issuer/app/modules/article/views/article_view.dart';
+import 'package:issuer/app/modules/nav/views/nav_view.dart';
 import 'package:issuer/app/modules/tag/views/tag_view.dart';
 
 class HomeController extends GetxController with SingleGetTickerProviderMixin {
@@ -18,6 +19,10 @@ class HomeController extends GetxController with SingleGetTickerProviderMixin {
 
     /// 页面数据刷新:
     tabs.assignAll([
+      {
+        'title': Text('Nav'),
+        'body': () => NavView(), // 测试页
+      },
       {
         'title': Text('Article'),
         'body': () => ArticleView(), // 测试页
