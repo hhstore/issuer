@@ -27,6 +27,7 @@ jobs:
       - run: flutter pub get
       - run: pub global activate get_cli
       - run: get generate locales assets/locales on data/locales
+      - run: cp .env.local .env
 
       #
       # release:
