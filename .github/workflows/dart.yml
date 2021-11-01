@@ -33,7 +33,7 @@ jobs:
       #
       # release:
       #
-      - run: flutter build web --release --web-renderer html --base-href /issuer/ --dart-define=GITHUB_API_TOKEN=${{secrets.blog_issue_token}}  # fix baseHref
+      - run: flutter build web --release --web-renderer html --base-href /issuer/ --dart-define=GITHUB_API_TOKEN=${{secrets.commit_secret}}  # fix baseHref
       - run: |
           cd build/web
           git init
