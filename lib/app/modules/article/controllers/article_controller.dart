@@ -1,9 +1,13 @@
+import 'package:flutter/material.dart';
+
 import '/app/modules/index.dart';
 
 ///
 ///
 ///
 class ArticleController extends GetxController with UtilsMixin {
+  ScrollController sc = ScrollController();
+
   final issueNum = 0.obs;
   final issues = <Issue>[].obs;
 
