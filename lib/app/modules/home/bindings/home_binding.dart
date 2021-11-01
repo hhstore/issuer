@@ -9,8 +9,8 @@ import '../controllers/home_controller.dart';
 class HomeBinding extends Bindings {
   @override
   void dependencies() {
+    Get.put<ArticleController>(ArticleController(), permanent: true);
     Get.lazyPut<NavController>(() => NavController());
-    Get.lazyPut<ArticleController>(() => ArticleController());
     Get.lazyPut<TagController>(() => TagController());
     Get.lazyPut<AboutController>(() => AboutController());
 

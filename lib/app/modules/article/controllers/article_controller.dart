@@ -1,6 +1,4 @@
-import 'package:get/get.dart';
-import 'package:github/github.dart';
-import 'package:issuer/app/utils/url.dart';
+import '/app/modules/index.dart';
 
 ///
 ///
@@ -10,8 +8,10 @@ class ArticleController extends GetxController with UtilsMixin {
   final issues = <Issue>[].obs;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
+
+    await getArticles();
   }
 
   @override
@@ -23,7 +23,7 @@ class ArticleController extends GetxController with UtilsMixin {
   void onClose() {}
 
   ///
-  void getArticles() async {
+  Future<void> getArticles() async {
     var cli = githubClient();
 
     var ret = await cli.issues.listByRepo(RepositorySlug('hhstore', 'blog')).toList().then((value) {

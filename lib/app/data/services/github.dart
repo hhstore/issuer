@@ -1,6 +1,4 @@
-import 'package:get/get.dart';
-import 'package:github/github.dart';
-import 'package:issuer/app/utils/url.dart';
+import '/app/modules/index.dart';
 
 class GithubService extends GetxService with UtilsMixin {
   static GithubService get to => Get.find();

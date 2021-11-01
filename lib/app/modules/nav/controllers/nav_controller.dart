@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:issuer/app/utils/url.dart';
+import 'package:issuer/app/utils/utils.dart';
 
 class NavController extends GetxController with UtilsMixin {
   //TODO: Implement NavController

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:niku/niku.dart';
 
+import '/app/modules/index.dart';
 import '../controllers/article_controller.dart';
 
 class ArticleView extends GetView<ArticleController> {
