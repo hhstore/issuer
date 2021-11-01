@@ -1,4 +1,5 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:github/github.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 mixin UtilsMixin {
@@ -8,6 +9,10 @@ mixin UtilsMixin {
   }
 
   String? envGet(String name) => dotenv.get(name, fallback: null);
+
+  GitHub githubClient({String? token}) {
+    return GitHub(auth: Authentication.withToken(token ?? envGet('GITHUB_API_TOKEN')));
+  }
 
   ///
   /// jump to:

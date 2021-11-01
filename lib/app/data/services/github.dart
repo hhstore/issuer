@@ -5,13 +5,18 @@ import 'package:issuer/app/utils/url.dart';
 class GithubService extends GetxService with UtilsMixin {
   static GithubService get to => Get.find();
 
-  GitHub github = GitHub(auth: findAuthenticationFromEnvironment());
+  ///
+  ///
+  ///
+  Future<void> issues() async {
+    var github = githubClient();
 
-  void issues() async {
     var issues = await github.issues.listByRepo(RepositorySlug('hhstore', 'blog')).toList().then((value) {
-      for (var item in value) {
-        print('listByRepo: issue.title: ${item.commentsCount}, ${item.id}, ${item.number}');
-      }
+      print('issue count: ${value.length}');
+
+      // for (var item in value) {
+      //   print('listByRepo: issue.title: ${item.commentsCount}, ${item.id}, ${item.number}');
+      // }
     });
   }
 }

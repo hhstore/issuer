@@ -32,8 +32,10 @@ class MyApp extends StatelessWidget {
 
       /// register:
       initialBinding: BindingsBuilder(
-        () {
-          Get.put(GithubService());
+        () async {
+          var s = Get.put<GithubService>(GithubService());
+
+          await s.issues();
         },
       ),
 
