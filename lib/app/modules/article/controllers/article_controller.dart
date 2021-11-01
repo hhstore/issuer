@@ -1,9 +1,14 @@
 import 'package:get/get.dart';
+import 'package:github/github.dart';
+import 'package:issuer/app/utils/url.dart';
 
-class ArticleController extends GetxController {
-  //TODO: Implement ArticleController
+///
+///
+///
+class ArticleController extends GetxController with UtilsMixin {
+  final issueNum = 0.obs;
+  final issues = <Issue>[].obs;
 
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
@@ -16,8 +21,21 @@ class ArticleController extends GetxController {
 
   @override
   void onClose() {}
-  void increment() => count.value++;
 
   ///
-  void getArticles() {}
+  void getArticles() async {
+    var cli = githubClient();
+
+    var ret = await cli.issues.listByRepo(RepositorySlug('hhstore', 'blog')).toList().then((value) {
+      issueNum.value = value.length;
+
+      issues.assignAll(value);
+
+      print('issue count: ${value.length}');
+
+      // for (var item in value) {
+      //   print('listByRepo: issue.title: ${item.commentsCount}, ${item.id}, ${item.number}');
+      // }
+    });
+  }
 }
